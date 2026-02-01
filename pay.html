@@ -28,12 +28,14 @@
 
         <!-- Provider Info -->
         <div class="px-6 pt-6 text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mb-3 shadow-sm border border-blue-200"
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mb-3 shadow-sm border border-blue-200 overflow-hidden"
                 id="avatar">
-                P
+                <span id="avatarText">P</span>
+                <img id="avatarImage" class="w-full h-full object-cover hidden" alt="Profile" />
             </div>
             <h2 class="text-gray-900 font-bold text-lg" id="providerName">Loading Name...</h2>
             <p class="text-gray-500 text-sm" id="serviceType">Service Provider</p>
+            <p class="text-xs text-blue-600 font-medium mt-1" id="subServiceType"></p>
             <p class="text-xs text-gray-400 mt-1" id="providerIdDisplay">ID: ...</p>
         </div>
 
@@ -97,13 +99,35 @@
         const phone = urlParams.get('phone');
         const name = urlParams.get('name') || 'Provider';
         const service = urlParams.get('service') || 'Service Provider';
+        const serviceType = urlParams.get('serviceType') || '';
+        const profileImage = urlParams.get('profileImage') || '';
         const fineAmount = parseFloat(urlParams.get('fineAmount') || '0');
         const subscriptionAmount = parseFloat(urlParams.get('subscriptionAmount') || '250');
 
         // UI Setup
         document.getElementById('providerName').innerText = name;
-        document.getElementById('avatar').innerText = name.charAt(0).toUpperCase();
         document.getElementById('serviceType').innerText = service;
+        
+        // Show sub-service type if available
+        if (serviceType) {
+            document.getElementById('subServiceType').innerText = serviceType;
+        }
+        
+        // Show profile image or fallback to initial
+        if (profileImage && profileImage.trim() !== '') {
+            document.getElementById('avatarText').style.display = 'none';
+            const avatarImg = document.getElementById('avatarImage');
+            avatarImg.src = profileImage;
+            avatarImg.classList.remove('hidden');
+            avatarImg.onerror = function() {
+                // Fallback to initial if image fails to load
+                this.classList.add('hidden');
+                document.getElementById('avatarText').style.display = 'block';
+            };
+        } else {
+            document.getElementById('avatarText').innerText = name.charAt(0).toUpperCase();
+        }
+        
         if (userId) {
             document.getElementById('providerIdDisplay').innerText = `ID: ${userId.substring(0, 8)}...`;
         }
