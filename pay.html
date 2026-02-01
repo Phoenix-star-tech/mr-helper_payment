@@ -42,7 +42,7 @@
             <div class="bg-slate-50 rounded-xl p-4 space-y-3 border border-slate-100">
                 <div class="flex justify-between text-sm text-gray-600">
                     <span>Weekly Subscription</span>
-                    <span class="font-medium text-gray-900">₹250.00</span>
+                    <span class="font-medium text-gray-900" id="subscriptionDisplay">₹250.00</span>
                 </div>
 
                 <div id="fineRow" class="flex justify-between text-sm text-red-600 hidden">
@@ -98,6 +98,7 @@
         const name = urlParams.get('name') || 'Provider';
         const service = urlParams.get('service') || 'Service Provider';
         const fineAmount = parseFloat(urlParams.get('fineAmount') || '0');
+        const subscriptionAmount = parseFloat(urlParams.get('subscriptionAmount') || '250');
 
         // UI Setup
         document.getElementById('providerName').innerText = name;
@@ -106,6 +107,9 @@
         if (userId) {
             document.getElementById('providerIdDisplay').innerText = `ID: ${userId.substring(0, 8)}...`;
         }
+        
+        // Update subscription amount display
+        document.getElementById('subscriptionDisplay').innerText = `₹${subscriptionAmount.toFixed(2)}`;
 
         if (fineAmount > 0) {
             document.getElementById('fineRow').classList.remove('hidden');
@@ -130,7 +134,8 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         userId: userId,
-                        fineAmount: fineAmount
+                        fineAmount: fineAmount,
+                        subscriptionAmount: subscriptionAmount
                     })
                 });
 
