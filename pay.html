@@ -43,7 +43,7 @@
         <div class="p-6">
             <div class="bg-slate-50 rounded-xl p-4 space-y-3 border border-slate-100">
                 <div class="flex justify-between text-sm text-gray-600">
-                    <span>Weekly Subscription</span>
+                    <span>Monthly Subscription</span>
                     <span class="font-medium text-gray-900" id="subscriptionDisplay">₹250.00</span>
                 </div>
 
@@ -107,19 +107,19 @@
         // UI Setup
         document.getElementById('providerName').innerText = name;
         document.getElementById('serviceType').innerText = service;
-        
+
         // Show sub-service type if available
         if (serviceType) {
             document.getElementById('subServiceType').innerText = serviceType;
         }
-        
+
         // Show profile image or fallback to initial
         if (profileImage && profileImage.trim() !== '') {
             document.getElementById('avatarText').style.display = 'none';
             const avatarImg = document.getElementById('avatarImage');
             avatarImg.src = profileImage;
             avatarImg.classList.remove('hidden');
-            avatarImg.onerror = function() {
+            avatarImg.onerror = function () {
                 // Fallback to initial if image fails to load
                 this.classList.add('hidden');
                 document.getElementById('avatarText').style.display = 'block';
@@ -127,11 +127,11 @@
         } else {
             document.getElementById('avatarText').innerText = name.charAt(0).toUpperCase();
         }
-        
+
         if (userId) {
             document.getElementById('providerIdDisplay').innerText = `ID: ${userId.substring(0, 8)}...`;
         }
-        
+
         // Update subscription amount display
         document.getElementById('subscriptionDisplay').innerText = `₹${subscriptionAmount.toFixed(2)}`;
 
